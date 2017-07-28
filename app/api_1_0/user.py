@@ -1,6 +1,8 @@
 from flask_restful import reqparse, Resource
 from validate_email import validate_email
-from ..models.user import User
+from ..models.user import User, Role
+from ..decorators import role_required
+from .. import mongo
 
 
 class UsersAPI(Resource):
@@ -10,8 +12,17 @@ class UsersAPI(Resource):
         self.postParser.add_argument('email', required=True)
         self.postParser.add_argument('password', required=True)
 
+    @role_required([Role.ADMIN, Role.CO_CHAIR])
     def get(self):
-        pass
+        query = mongo.db.find({})
+        result = []
+        for q in query:
+            result.append({
+                "_id": str(q["_id"]),
+                "email": q["email"]
+                "roles": q["roles"]
+            })
+        return result
 
     def post(self):
         args = self.postParser.parse_args()

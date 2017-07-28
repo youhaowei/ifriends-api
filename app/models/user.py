@@ -6,6 +6,18 @@ from itsdangerous import (
 )
 from flask import current_app
 from bson import ObjectId
+from enum import Enum
+
+
+class Role(Enum):
+    ADMIN = "Admin"
+    MATCH_COORD = "Match Coordinator"
+    CO_CHAIR = "Co-Chair"
+    BOARD_MEMBER = "Board Member"
+    CUR_STUDENT = "Student"
+    PREV_STUDENT = "Previous Student"
+    HOST = "Host"
+    HOST_CANDIDATE = "Host Candidate"
 
 
 class User:
@@ -60,7 +72,7 @@ class User:
         return s.dumps(payload)
 
     @staticmethod
-    def verify_token(self, token):
+    def verify_token(token):
         s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'])
         data = s.loads(token)
         user = User(data["uid"])
@@ -85,3 +97,6 @@ class User:
             return User(result["_id"])
         else:
             raise Warning("Invalid password")
+
+    def has_role(self, r):
+        return r in self.roles
