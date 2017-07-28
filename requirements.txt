@@ -3,3 +3,7 @@ flask_pymongo
 requests
 gunicorn
 flask_script
+flask_restful
+passlib
+validate_email
+itsdangerous
