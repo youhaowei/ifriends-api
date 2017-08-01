@@ -67,7 +67,7 @@ class User:
         s = TimedJSONWebSignatureSerializer(
             current_app.config["SECRET_KEY"], expires_in=expire)
         payload = {
-            "uid": self.uid
+            "uid": str(self.uid)
         }
         return s.dumps(payload)
 
@@ -92,11 +92,29 @@ class User:
         result = User.find_by_email(email)
         if result is None:
             raise Warning("Email doesn't exist in database.")
-        if pwd_context.verify(result['password'],
-                              User.hash_password(password)):
+        if pwd_context.verify(password, result['password']):
             return User(result["_id"])
         else:
             raise Warning("Invalid password")
 
+    def update_host_info(self, args):
+        mongo.db.User.update_one({
+            "_id": ObjectId(self.uid)
+        }, {
+            "$set": {
+                "first_name": args["first_name"],
+                "last_name": args["last_name"],
+                "gender": args["gender"],
+                "address": args["full_address"],
+                "zip": args["zip"],
+                "city": args["city"],
+                "phone": args["phone"],
+                "facebook": args["facebook"],
+                "smoker": args["smoker"],
+                "host_info": args,
+            }
+        })
+
     def has_role(self, r):
         return r in self.roles
+
