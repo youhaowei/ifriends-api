@@ -14,14 +14,14 @@ class UsersAPI(Resource):
         self.postParser.add_argument('first_name', required=True)
         self.postParser.add_argument('last_name', required=True)
 
-    @role_required([Role.ADMIN, Role.CO_CHAIR])
     def get(self):
+        role_required([Role.ADMIN, Role.CO_CHAIR])
         query = mongo.db.find({})
         result = []
         for q in query:
             result.append({
                 "_id": str(q["_id"]),
-                "email": q["email"]
+                "email": q["email"],
                 "roles": q["roles"]
             })
         return result
