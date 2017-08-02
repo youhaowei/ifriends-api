@@ -117,6 +117,12 @@ class User:
             }
         })
 
-    def has_role(self, r):
-        return r in self.roles
+    def has_role(self, roles):
+        if isinstance(roles, list):
+            for role in roles:
+                if role.value in self.roles:
+                    return True
+            return False
+        else:
+            return roles in self.roles
 

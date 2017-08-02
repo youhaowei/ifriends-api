@@ -4,26 +4,22 @@ from .models import User
 
 
 def role_required(f):
-    if not g.user:
-        try:
-            if request.is_json:
-                token = request.json["token"]
-            else:
-                token = request.values["token"]
-        except:
-            abort(400, "Bad or Missing Token.")
-            
-        try:
-            user = User.verify_token(token)
-        except:
-            abort(400, "Bad Token.")
-        g.user = user
-    else:
-        user = g.user
+    try:
+        if request.is_json:
+            token = request.json["token"]
+        else:
+            token = request.values["token"]
+    except:
+        abort(400, "Bad or Missing Token.")
+        
+    try:
+        user = User.verify_token(token)
+    except:
+        abort(400, "Bad Token.")
     if user.has_role(f):
-        return True
+        return user
     else:
-        abort(503)
+        abort(403)
 
 
 def token_required():

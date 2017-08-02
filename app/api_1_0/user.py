@@ -15,8 +15,8 @@ class UsersAPI(Resource):
         self.postParser.add_argument('last_name', required=True)
 
     def get(self):
-        role_required([Role.ADMIN, Role.CO_CHAIR])
-        query = mongo.db.find({})
+        user = role_required([Role.ADMIN, Role.CO_CHAIR])
+        query = mongo.db.User.find({})
         result = []
         for q in query:
             result.append({
