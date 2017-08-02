@@ -50,7 +50,7 @@ class User:
             "email": email,
             "password": User.hash_password(password),
             "roles": [],
-            "confirmed": False
+            "confirmed": False,
             "first_name": first_name,
             "last_name": last_name
         })
