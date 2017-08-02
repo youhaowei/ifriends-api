@@ -4,8 +4,7 @@ from ..decorators import token_required
 
 class StudentsAPI(Resource):
 
-
-def __init__(self):
+    def __init__(self):
         self.postParser = reqparse.RequestParser()
         self.postParser.add_argument('first_name', required=True)
         self.postParser.add_argument('last_name', required=True)
