@@ -11,6 +11,8 @@ class UsersAPI(Resource):
         self.postParser = reqparse.RequestParser()
         self.postParser.add_argument('email', required=True)
         self.postParser.add_argument('password', required=True)
+        self.postParser.add_argument('first_name', required=True)
+        self.postParser.add_argument('last_name', required=True)
 
     @role_required([Role.ADMIN, Role.CO_CHAIR])
     def get(self):
@@ -29,7 +31,9 @@ class UsersAPI(Resource):
         if not validate_email(args['email']):
             return 'ERROR: email is not valid', 400
         try:
-            result = User.register(args["email"], args["password"])
+            result = User.register(
+                args["email"], args["password"], 
+                args["first_name"], args["last_name"])
         except Exception as e:
             return str(e), 400
         return result

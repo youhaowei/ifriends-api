@@ -42,7 +42,7 @@ class User:
         return pwd_context.encrypt(password)
 
     @staticmethod
-    def register(email, password):
+    def register(email, password, first_name, last_name):
         result = User.find_by_email(email)
         if result is not None:
             raise Warning("Email already exists.")
@@ -51,6 +51,8 @@ class User:
             "password": User.hash_password(password),
             "roles": [],
             "confirmed": False
+            "first_name": first_name,
+            "last_name": last_name
         })
         s = TimedJSONWebSignatureSerializer(
             current_app.config["SECRET_KEY"], expires_in=900)
