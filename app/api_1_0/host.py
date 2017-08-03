@@ -55,7 +55,7 @@ class HostsAPI(Resource):
         args = self.postParser.parse_args()
 
         update = {}
-        copy_fields = ["first_name", "last_name", "email", "address"
+        copy_fields = ["first_name", "last_name", "email", "address",
                        "gender", "occupation", "phone",
                        "best_contact", "has_facebook", "add_facebook",
                        "hear_about_us", "household_size", "has_children",
