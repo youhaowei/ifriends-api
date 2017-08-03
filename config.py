@@ -16,9 +16,8 @@ class Config:
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
     MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get(
-        'MAIL_USERNAME') or 'internationalfriendstucson@gmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'WorldFriends717'
+    MAIL_USERNAME = 'internationalfriendstucson@gmail.com'
+    MAIL_PASSWORD = 'WorldFriends717'
     MAIL_SENDER = 'internationalfriendstucson@gmail.com'
     MAIL_SUBJECT_PREFIX = "[FROM International Friends]"
 
