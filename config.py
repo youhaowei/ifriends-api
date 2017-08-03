@@ -18,7 +18,7 @@ class Config:
     MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get(
         'MAIL_USERNAME') or 'internationalfriendstucson@gmail.com'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'WorldFriends717'
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'fMd-shM-c4D-LDS'
     MAIL_SENDER = 'internationalfriendstucson@gmail.com'
     MAIL_SUBJECT_PREFIX = "[FROM International Friends]"
 
