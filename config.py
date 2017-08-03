@@ -14,8 +14,8 @@ class Config:
         "IF?ssl=true&replicaSet=ifriends-shard-0&authSource=admin"
     MAIL_SENDER = "International Friends"
     MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
     MAIL_USERNAME = os.environ.get(
         'MAIL_USERNAME') or 'internationalfriendstucson@gmail.com'
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'WorldFriends717'
