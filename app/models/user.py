@@ -99,23 +99,14 @@ class User:
         else:
             raise Warning("Invalid password")
 
-    def update_host_info(self, args):
+    def update_host_info(self, update):
+        update["host_pending"] = True
         mongo.db.User.update_one({
             "_id": ObjectId(self.uid)
         }, {
-            "$set": {
-                "first_name": args["first_name"],
-                "last_name": args["last_name"],
-                "gender": args["gender"],
-                "address": args["full_address"],
-                "zip": args["zip"],
-                "city": args["city"],
-                "phone": args["phone"],
-                "facebook": args["facebook"],
-                "smoker": args["smoker"],
-                "host_info": args,
-            }
+            "$set": update
         })
+        return update
 
     def has_role(self, roles):
         if isinstance(roles, list):
@@ -125,4 +116,3 @@ class User:
             return False
         else:
             return roles in self.roles
-

@@ -4,6 +4,7 @@ requests
 gunicorn
 flask_script
 flask_restful
+flask_mail
 passlib
 validate_email
 itsdangerous

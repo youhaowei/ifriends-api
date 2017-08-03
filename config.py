@@ -8,10 +8,19 @@ class Config:
         'SECRET_KEY') or 'Wildcat International Friends'
     MONGO_PORT = os.environ.get("MONGO_PORT") or 27017
     MONGO_URI = "mongodb://youhaowei:5C3Q4mFlZwjXbcQB@" + \
-        "ifriends-shard-00-00-ztz4d.mongodb.net:27017," + \
+        "ifriends-shard-00-02-ztz4d.mongodb.net:27017," + \
         "ifriends-shard-00-01-ztz4d.mongodb.net:27017," + \
-        "ifriends-shard-00-02-ztz4d.mongodb.net:27017/" + \
+        "ifriends-shard-00-00-ztz4d.mongodb.net:27017/" + \
         "IF?ssl=true&replicaSet=ifriends-shard-0&authSource=admin"
+    MAIL_SENDER = "International Friends"
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = os.environ.get(
+        'MAIL_USERNAME') or 'internationalfriendstucson@gmail.com'
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'WorldFriends717'
+    MAIL_SENDER = 'internationalfriendstucson@gmail.com'
+    MAIL_SUBJECT_PREFIX = "[FROM International Friends]"
 
     @staticmethod
     def init_app(app):

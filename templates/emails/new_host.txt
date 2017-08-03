@@ -1,0 +1,5 @@
+We have a new host!
+
+{% for field in values %}
+    {{field}}: {{values[field]}}
+{% endfor %}
