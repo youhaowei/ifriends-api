@@ -23,19 +23,23 @@ class Role(Enum):
 class User:
 
     def __init__(self, uid):
-        result = mongo.db.User.find_one({
-            "_id": ObjectId(uid)
-        }, {
-            "email": 1,
-            "password": 1,
-            "roles": 1
-        })
+        if isinstance(uid, str) or isinstance(uid, ObjectId):
+            result = mongo.db.User.find_one({
+                "_id": ObjectId(uid)
+            }, {
+                "email": 1,
+                "password": 1,
+                "roles": 1
+            })
+        else:
+            result = uid
         if not result:
             raise Warning('User does not exist.')
         self.uid = uid
         self.email = result["email"]
         self.password = result["password"]
         self.roles = result["roles"]
+        self.document = result
 
     @staticmethod
     def hash_password(password):

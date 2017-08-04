@@ -1,6 +1,8 @@
 from flask_restful import reqparse, Resource
-from ..decorators import token_required
+from ..helpers import token_required, role_required
 from ..email import send_email
+from ..models import Role
+from .. import mongo
 
 
 class HostsAPI(Resource):
@@ -50,6 +52,9 @@ class HostsAPI(Resource):
         self.postParser.add_argument('preferred_countries')
         self.postParser.add_argument('student_type')
 
+        self.getParser = reqparse.RequestParser()
+        self.getParser.add_argument('pending', type=bool, default=False)
+
     def post(self):
         user = token_required()
         args = self.postParser.parse_args()
@@ -92,3 +97,17 @@ class HostsAPI(Resource):
         send_email(['charixandra@gmail.com'],
                    'We Have a New Host!', 'emails/new_host', values=update)
         return update
+
+    def get(self):
+        args = self.getParser.parse_args()
+        user = role_required([Role.CO_CHAIR, Role.ADMIN])
+        if args["pending"]:
+            query = mongo.db.User.find({"phost_pending": True})
+        else:
+            query = mongo.db.User.find({"roles": {"$in": [Role.HOST]}})
+        result = []
+        for item in query:
+            item["uid"] = str(item["_id"])
+            del item["_id"]
+            result.append(item)
+        return item

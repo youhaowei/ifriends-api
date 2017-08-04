@@ -1,5 +1,5 @@
 from flask_restful import reqparse, Resource
-from ..decorators import token_required
+from ..helpers import token_required
 
 
 class StudentsAPI(Resource):

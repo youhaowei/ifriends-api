@@ -1,7 +1,7 @@
 from flask_restful import reqparse, Resource
 from validate_email import validate_email
 from ..models.user import User, Role
-from ..decorators import role_required
+from ..helpers import role_required
 from .. import mongo
 
 
