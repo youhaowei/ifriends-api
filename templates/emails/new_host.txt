@@ -1,5 +1,10 @@
-We have a new host!
+My lord,
+
+We have a new slave!
 
 {% for field in values %}
     {{field}}: {{values[field]}}
 {% endfor %}
+
+If you have verified this request, please goto {{url_for('api.host_verify', uid=uid, token=token, _external=True)}}
+(This link will expire in 7 days)

@@ -26,19 +26,18 @@ class User:
         if isinstance(uid, str) or isinstance(uid, ObjectId):
             result = mongo.db.User.find_one({
                 "_id": ObjectId(uid)
-            }, {
-                "email": 1,
-                "password": 1,
-                "roles": 1
             })
         else:
             result = uid
         if not result:
-            raise Warning('User does not exist.')
+            abort(404, "uid is invalid")
         self.uid = uid
         self.email = result["email"]
         self.password = result["password"]
         self.roles = result["roles"]
+        self.first_name = result["first_name"]
+        self.last_name = result["last_name"]
+        self.confirmed = result["confirmed"]
         self.document = result
 
     @staticmethod
@@ -104,13 +103,35 @@ class User:
             raise Warning("Invalid password")
 
     def update_host_info(self, update):
-        update["host_pending"] = True
+        if self.has_role(Role.HOST):
+            abort(400, "Already a host!")
+        else:
+            self.add_role(Role.HOST_CANDIDATE)
+            self.update()
         mongo.db.User.update_one({
             "_id": ObjectId(self.uid)
         }, {
             "$set": update
         })
         return update
+
+    def add_role(self, role):
+        if not self.has_role(role):
+            self.roles.append(role.value)
+
+    def remove_role(self, role):
+        if self.has_role(role):
+            self.roles.remove(role.value)
+
+    def update(self):
+        mongo.db.User.update_one({
+            "_id": ObjectId(self.uid)
+        }, {
+            "$set": {
+                "roles": self.roles,
+                "confirmed": self.confirmed
+            }
+        })
 
     def has_role(self, roles):
         if isinstance(roles, list):
@@ -119,4 +140,4 @@ class User:
                     return True
             return False
         else:
-            return roles in self.roles
+            return roles.value in self.roles

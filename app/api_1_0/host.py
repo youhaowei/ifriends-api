@@ -1,8 +1,11 @@
 from flask_restful import reqparse, Resource
-from ..helpers import token_required, role_required
+from ..helpers import (
+    auth_required, role_required, generate_token, TokenType, token_required
+)
 from ..email import send_email
 from ..models import Role
 from .. import mongo
+from ..models import User
 
 
 class HostsAPI(Resource):
@@ -56,7 +59,7 @@ class HostsAPI(Resource):
         self.getParser.add_argument('pending', type=bool, default=False)
 
     def post(self):
-        user = token_required()
+        user = auth_required()
         args = self.postParser.parse_args()
 
         update = {}
@@ -91,11 +94,16 @@ class HostsAPI(Resource):
             }
         ]
         try:
-            user.update_host_info(update)
+            uid = user.update_host_info(update)
         except Exception as e:
             return str(e), 500
-        send_email(['charixandra@gmail.com'],
-                   'We Have a New Host!', 'emails/new_host', values=update)
+        token = generate_token(3600 * 24 * 7, {
+            "type": TokenType.HOST_VERIFICATION.value,
+            "uid": user.uid
+        })
+        send_email(['internationalfriendstucson@gmail.com'],
+                   'We Have a New Host!', 'emails/new_host',
+                   values=update, token=token, uid=user.uid)
         return update
 
     def get(self):
@@ -111,3 +119,26 @@ class HostsAPI(Resource):
             del item["_id"]
             result.append(item)
         return item
+
+
+def verify_host(uid):
+    user = User(uid)
+    if user.has_role(Role.HOST):
+        return "The host is already verified: %s %s (%s)" %\
+            (user.first_name, user.last_name, user.email)
+    user.remove_role(Role.HOST_CANDIDATE)
+    user.add_role(Role.HOST)
+    user.update()
+    
+    send_email([user.email], 'Welcome Aboard!',
+               'emails/out_host/verified', first_name=user.first_name)
+    
+    return "You have verify the host! An email has been sent to %s %s (%s)" %\
+        (user.first_name, user.last_name, user.email)
+
+
+class HostVerifyAPI(Resource):
+
+    def get(self, uid):
+        token = token_required(TokenType.HOST_VERIFICATION)
+        return verify_host(token["uid"])

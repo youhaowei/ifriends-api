@@ -1,6 +1,6 @@
 from flask import Blueprint
-from .user import UsersAPI
-from .host import HostsAPI
+from .user import UsersAPI, UserConfirmAPI
+from .host import HostsAPI, HostVerifyAPI
 from flask_restful import Api
 
 
@@ -8,4 +8,9 @@ api_bp = Blueprint('api', __name__)
 api = Api(api_bp)
 
 api.add_resource(UsersAPI, '/users')
+api.add_resource(UserConfirmAPI, '/user/<uid>/confirm',
+                 endpoint='user_confirm')
+
 api.add_resource(HostsAPI, "/hosts")
+
+api.add_resource(HostVerifyAPI, '/host/<uid>/verify', endpoint='host_verify')

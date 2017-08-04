@@ -1,0 +1,11 @@
+<p>Hi {{first_name}},</p>
+
+<p>You recently singed up for Tucson International Friends.</p>
+
+<p>Please click <a href="{{url_for('api.user_confirm', uid=uid, token=token, _external=True)}}">here</a> to confirm your account.</p>
+
+<p>If the token expired, click <a href="{{url_for('api.user_confirm', uid=uid, _external=True)}}">here</a> to request a new confirmation email. The token will expire after 15 minutes.</p>
+
+<p>Feel free to email me if you have any questions</p>
+
+Tucson International Friends Admin

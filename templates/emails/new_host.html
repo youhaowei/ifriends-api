@@ -1,9 +1,10 @@
 <p>My lord,</p>
 
-<p>We have a new slave!</p>
+<p> We have a new slave!</p>
 
 {% for field in values %}
-    <p><b>{{field}}:</b> {{values[field]}}</p>
+<p> <b>{{field}}:</b> {{values[field]}}</p>
 {% endfor %}
 
-<p>Yours</p>
+<p>If you have verified this request, 
+    please click <a href="{{url_for('api.host_verify', uid=uid, token=token, _external=True)}}">me</a> in 7 days</p>

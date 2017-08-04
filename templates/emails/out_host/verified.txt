@@ -1,0 +1,7 @@
+Hi {{first_name}},
+
+Your host application was approved!
+
+Welcome aboard!
+
+Admin from Tucson International Friends

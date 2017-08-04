@@ -1,0 +1,7 @@
+Hi {{first_name}},
+
+You recently singed up for Tucson International Friends.
+
+Please visit {{url_for('api.user_confirm', uid=uid, token=token)}} to confirm your account.
+
+Tucson International Friends Admin
