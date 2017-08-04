@@ -4,7 +4,7 @@ from itsdangerous import (
     JSONWebSignatureSerializer, TimedJSONWebSignatureSerializer,
     BadSignature, SignatureExpired
 )
-from flask import current_app
+from flask import current_app, abort
 from bson import ObjectId
 from enum import Enum
 
@@ -114,6 +114,18 @@ class User:
             "$set": update
         })
         return update
+
+    def update_student_info(self, update):
+        if self.has_role(Role.CUR_STUDENT):
+            abort(400, "Already a student!")
+        else:
+            self.add_role(Role.CUR_STUDENT)
+            self.update()
+        mongo.db.User.update_one({
+            "_id": ObjectId(self.uid)
+        }, {
+            "$set": update
+        })
 
     def add_role(self, role):
         if not self.has_role(role):

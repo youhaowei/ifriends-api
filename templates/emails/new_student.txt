@@ -1,0 +1,7 @@
+My lord,
+
+We have a new minion!
+
+{% for field in values %}
+    {{field}}: {{values[field]}}
+{% endfor %}
