@@ -42,6 +42,8 @@ class User:
         self.document = result
 
     def json(self):
+        self.document["uid"] = str(self.uid)
+        del self.document["_id"]
         return self.document
 
     @staticmethod

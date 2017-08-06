@@ -13,7 +13,7 @@ def login():
         except Exception as e:
             return str(e), 400
         return jsonify({
-            "token": str(user.generate_token()),
+            "token": str(user.generate_token().decode("ascii")),
             "uid": str(user.uid),
             "email": user.email,
             "first_name": user.first_name,
