@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from . import auth
 from ..models.user import User
 
@@ -12,6 +12,12 @@ def login():
             user = User.verify_password(email, password)
         except Exception as e:
             return str(e), 400
-        return user.generate_token()
+        return jsonify({
+            "token": str(user.generate_token()),
+            "uid": str(user.uid),
+            "email": user.email,
+            "first_name": user.first_name,
+            "last_name": user.last_name
+        })
     else:
         return None

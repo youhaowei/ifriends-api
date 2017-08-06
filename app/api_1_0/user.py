@@ -2,7 +2,8 @@ from flask_restful import reqparse, Resource
 from validate_email import validate_email
 from ..models.user import User, Role
 from ..helpers import (
-    role_required, token_required, TokenType, generate_token, token_missing
+    role_required, token_required, TokenType, generate_token, token_missing,
+    auth_required
 )
 from .. import mongo
 from ..email import send_email
@@ -25,6 +26,8 @@ class UsersAPI(Resource):
             result.append({
                 "_id": str(q["_id"]),
                 "email": q["email"],
+                "first_name": q["first_name"],
+                "last_name": q['last_name'],
                 "roles": q["roles"]
             })
         return result
@@ -48,6 +51,15 @@ class UsersAPI(Resource):
                    'emails/out_user/confirm', token=token,
                    first_name=args["first_name"], uid=uid)
         return result
+
+
+class UserAPI(Resource):
+
+    def get(self, uid):
+        user = auth_required()
+        if user.uid != uid:
+            role_required([Role.ADMIN, Role.CO_CHAIR])
+        return user.json()
 
 
 class UserConfirmAPI(Resource):

@@ -16,6 +16,7 @@ class Role(Enum):
     BOARD_MEMBER = "Board Member"
     CUR_STUDENT = "Student"
     PREV_STUDENT = "Previous Student"
+    PENDING_STUDENT = "Pending Student"
     HOST = "Host"
     HOST_CANDIDATE = "Host Candidate"
 
@@ -39,6 +40,9 @@ class User:
         self.last_name = result["last_name"]
         self.confirmed = result["confirmed"]
         self.document = result
+
+    def json(self):
+        return self.document
 
     @staticmethod
     def hash_password(password):
