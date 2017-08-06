@@ -1,5 +1,7 @@
 from flask_restful import reqparse, Resource
-from ..helpers import token_required, auth_required
+from ..helpers import token_required, auth_required, role_required
+from ..models import Role, User
+from .. import mongo
 
 
 class StudentsAPI(Resource):
@@ -42,6 +44,19 @@ class StudentsAPI(Resource):
         args = self.postParser.parse_args()
         ua_email = '@email.arizona.edu'
         if args["email"][-len(ua_email):] != ua_email:
-            abort(403, "Not a valid U of A email address.") 
+            abort(403, "Not a valid U of A email address.")
         user.update_student_info(args)
         return args
+
+    def get(self):
+        user = role_required([Role.ADMIN, Role.HOST])
+        result = mongo.db.User.find({
+            "roles": Role.CUR_STUDENT.value
+        }, {
+            "_id": 1
+        })
+        return_value = []
+        for r in result:
+            student = User(r["_id"])
+            return_value.append(student.json())
+        return return_value
