@@ -11,6 +11,7 @@ class StudentsAPI(Resource):
         self.postParser.add_argument('first_name', required=True)
         self.postParser.add_argument('last_name', required=True)
         self.postParser.add_argument('email', required=True)
+        self.postParser.add_argument('has_facebook', type=bool)
         self.postParser.add_argument('dob', required=True)
         self.postParser.add_argument('spouse')
         self.postParser.add_argument("address", required=True)
