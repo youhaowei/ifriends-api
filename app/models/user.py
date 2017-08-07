@@ -72,7 +72,7 @@ class User:
             }).decode("ascii")
         }
 
-    def generate_token(self, expire=900):
+    def generate_token(self, expire=3600):
         # generate a timed token
         # default expired 15 minutes later
         s = TimedJSONWebSignatureSerializer(
