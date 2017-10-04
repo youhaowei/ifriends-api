@@ -28,7 +28,11 @@ def decode_token(token):
 def role_required(f):
     try:
         if request.is_json:
-            token = request.json["token"]
+            print("JSON!")
+            data = request.get_json()
+            print(request.json["token"])
+            print(data)
+            token = data["token"]
         else:
             token = request.values["token"]
     except:
@@ -47,7 +51,11 @@ def role_required(f):
 def auth_required():
     try:
         if request.is_json:
-            token = request.json["token"]
+            print("JSON!")
+            data = request.get_json()
+            print(request.json["token"])
+            print(data)
+            token = data["token"]
         else:
             token = request.values["token"]
     except:
@@ -62,7 +70,11 @@ def auth_required():
 def token_required(type):
     try:
         if request.is_json:
-            token = request.json["token"]
+            print("JSON!")
+            data = request.get_json()
+            print(request.json["token"])
+            print(data)
+            token = data["token"]
         else:
             token = request.values["token"]
     except:

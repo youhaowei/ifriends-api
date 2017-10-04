@@ -6,6 +6,7 @@ from ..email import send_email
 from ..models import Role
 from .. import mongo
 from ..models import User
+import ast
 
 
 class HostsAPI(Resource):
@@ -16,19 +17,21 @@ class HostsAPI(Resource):
         self.postParser.add_argument('first_name', required=True)
         self.postParser.add_argument('last_name', required=True)
         self.postParser.add_argument('email', required=True)
-        self.postParser.add_argument('spouse_first_name')
-        self.postParser.add_argument('spouse_last_name')
-        self.postParser.add_argument('gender', required=True)
-        self.postParser.add_argument("occupation", required=True)
-        self.postParser.add_argument("spouse_occupation")
         self.postParser.add_argument("address", required=True)
         self.postParser.add_argument('phone', required=True)
+        self.postParser.add_argument('gender', required=True)
+        self.postParser.add_argument('spouse_first_name')
+        self.postParser.add_argument('spouse_last_name')
+        self.postParser.add_argument("occupation", required=True)
+        self.postParser.add_argument("spouse_occupation")
         self.postParser.add_argument('best_contact', required=True)
         self.postParser.add_argument('has_facebook', required=True, type=bool)
         self.postParser.add_argument('add_facebook', type=bool)
         self.postParser.add_argument('hear_about_us', required=True)
 
-        """ second page """
+        self.postParser.add_argument('host_info', required=True)
+        # second page
+        """
         self.postParser.add_argument('household_size', required=True, type=int)
         self.postParser.add_argument('has_children', required=True, type=bool)
         self.postParser.add_argument('children_age')
@@ -36,7 +39,7 @@ class HostsAPI(Resource):
         self.postParser.add_argument('pets')
         self.postParser.add_argument('smoker', required=True, type=bool)
 
-        """ third page """
+        # third page
         # Serve on the International Friends Board or a Comittee
         self.postParser.add_argument('help_board', required=True, type=bool)
         # Assist with luncheons, orientations or annual picnic
@@ -45,16 +48,17 @@ class HostsAPI(Resource):
         self.postParser.add_argument('help_food', required=True, type=bool)
 
         # forth page
+        """
         self.postParser.add_argument('ref1_name', required=True)
         self.postParser.add_argument('ref2_name', required=True)
         self.postParser.add_argument('ref1_phone', required=True)
         self.postParser.add_argument('ref2_phone', required=True)
         self.postParser.add_argument('ref1_email', required=True)
         self.postParser.add_argument('ref2_email', required=True)
-
+        """
         self.postParser.add_argument('preferred_countries')
         self.postParser.add_argument('student_type')
-
+        """
         self.getParser = reqparse.RequestParser()
         self.getParser.add_argument('pending', type=bool, default=False)
 
@@ -66,10 +70,7 @@ class HostsAPI(Resource):
         copy_fields = ["first_name", "last_name", "email", "address",
                        "gender", "occupation", "phone",
                        "best_contact", "has_facebook", "add_facebook",
-                       "hear_about_us", "household_size", "has_children",
-                       "children_age", "has_pets", "pets", "smoker",
-                       "help_board", "help_event", "help_food",
-                       "preferred_countries"]
+                       "hear_about_us"]
 
         if args["spouse_first_name"] or args["spouse_last_name"] or \
                 args["spouse_occupation"]:
@@ -80,8 +81,7 @@ class HostsAPI(Resource):
             }
         for field in copy_fields:
             update[field] = args[field]
-
-        update["preferred_gender"] = args["student_type"]
+        update["host_info"] = ast.literal_eval(args["host_info"])
         update["references"] = [
             {
                 "name": args["ref1_name"],
@@ -93,6 +93,7 @@ class HostsAPI(Resource):
                 "phone": args["ref2_phone"]
             }
         ]
+
         try:
             uid = user.update_host_info(update)
         except Exception as e:
@@ -129,10 +130,10 @@ def verify_host(uid):
     user.remove_role(Role.HOST_CANDIDATE)
     user.add_role(Role.HOST)
     user.update()
-    
+
     send_email([user.email], 'Welcome Aboard!',
                'emails/out_host/verified', first_name=user.first_name)
-    
+
     return "You have verify the host! An email has been sent to %s %s (%s)" %\
         (user.first_name, user.last_name, user.email)
 
