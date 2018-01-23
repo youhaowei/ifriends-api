@@ -1,0 +1,321 @@
+html {
+	padding: 0; margin: 0;
+	height: 100%;
+	
+	body#page {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		font-family: $font-copy;
+		color: $color-black;
+
+		a {
+			color: $color-highmedium;
+
+			&:hover, &:focus {
+				color: $color-highlight;
+				text-decoration: none;
+			}
+
+			&.text-link, &.password-reset {
+				color: $color-highdark;
+
+				&:hover, &:focus {
+					color: $color-highlight;
+					text-decoration: none;
+				}
+			}
+		}
+
+		& > header {
+			flex: 1 0 auto;
+		}
+
+		main {
+			flex: 1 0 auto;
+
+			& > div:first-of-type {	// allocate space for fixed header
+				margin-top: 75px;
+
+				@include screen-sm-only {
+					margin-top: 125px;
+				}
+			}
+
+			.breadcrumb {
+				margin-top: 1.5em;
+				background-color: transparent;
+				box-sizing: border-box;
+
+				& > li{
+					& + li:before {
+						color: $color-main;
+						content: "> ";
+						padding: 0 5px;
+					}
+
+					a {
+						color: $color-main;
+						&:hover, &:focus {
+							color: $color-highlight;
+						}
+			    	}
+
+			    	&.active {
+			    		color: $color-highdark;
+			    	}
+				}
+			}
+
+			#home-info div > div {
+				padding-top: 5%;
+				padding-bottom: 5%;
+			}
+
+			.panel-heading {
+				color: $color-white;
+				background-color: $color-acc1;
+// 				text-align: center;
+			}
+
+			#faqs, #principles {
+
+				.panel-heading {
+					padding: 0;	//remove panel heading and add it to anchor
+				}
+
+				h4 {
+					width: 100%;
+				}
+
+				.accordion-toggle {
+					display: block;
+					padding: .5em;	//resoter padding inside of clickable area
+					width: 100%;
+					height: auto;
+				
+					&::before {
+						@include faIcon($fa-var-plus);	// give all FAQs Plus sign by default
+						margin-right: .5em;
+					}
+				}
+
+				.active {
+					.panel-heading {
+						background-color: lighten($color-acc1, 20%);	// give give active FAQs light blue heading
+					}
+
+					.accordion-toggle {
+						&::before {
+							@include faIcon($fa-var-minus); // give give active FAQs minus sign
+						}
+					}
+
+				}
+
+			}
+
+			#bruna-photo {
+				width: 50%;
+			}
+
+			#chair-letter{
+				max-width: 40em;
+				margin: 0 auto;
+				margin-bottom: 5em;
+			}
+		}
+
+		section {
+			&.container {
+				margin-bottom: 5em;	// margins on all except color boxes. Color box margins handled in js file.
+			}
+
+			h2 {
+				color: $color-main;
+				text-transform: uppercase;
+			}
+		}
+
+		& > footer {
+			//align-self: flex-end;
+			flex: 0 1 auto;
+			position: relative;
+			font-size: 0.75em;
+			background-color: $color-acc1;
+
+			h1 {
+				font-size: 1.167em;
+				font-weight: 600;
+			}
+
+			section.row {
+				padding: 1em;
+			}
+
+			.follow-us{
+				font-family: $font-header;
+				font-weight: 600;
+
+				&::after {
+					@include faIcon($fa-var-facebook-square);
+					margin-left: 1em;
+				}
+			}
+
+			.vcard {
+				.url {
+					color: $color-main;
+				}
+
+				.fn {
+					margin: 0;
+					padding: 0;
+					@include faIconBefore($fa-var-map-marker, $color-highmedium);
+					
+					
+					@include screen-sm-only { // Prevent "ISS" from breaking onto it's own line alone
+						&::before {
+							position: absolute;
+						}
+
+						& span.line-1 {
+							display: inline-block;
+							max-width: 10em;
+							margin-left: 2em;
+						}
+					
+					}
+
+					& span.line-2 {
+						margin-left: 2em;
+					}
+				}
+
+				.adr {
+					margin-left: 2em;
+				}
+
+				.tel {
+					@include faIconBefore($fa-var-phone, $color-highmedium);
+				}
+
+				.email {
+					@include faIconBefore($fa-var-envelope, $color-highmedium);
+				}
+			}
+
+			ul {
+				padding: 0;
+				list-style: none;
+
+				li {
+					line-height: 2em;
+				}
+
+				a {
+					&:link, &:visited {
+						color: $color-main;
+					}
+
+					&:hover, &:focus {
+						color: $color-highlight;
+					}
+
+					&.legal-link {
+						&:link, &:visited {
+							color: $color-white;
+						}
+
+						&:hover, &:focus {
+							color: $color-highlight;
+						}
+					}
+				}
+			}
+
+			#legal {
+				background-color: $color-main;
+				color: $color-white;
+			}
+
+			@media (max-width: 525px) {
+				& > section:first-of-type{
+					.container {
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+
+						& div {
+							float: none;
+							width: 100%;
+						}
+					}
+				}
+
+				#legal p {
+					max-width: 25em;	// break colophone into two lines
+				}
+			}
+		}
+
+		.cta {
+			width: 100%;
+			text-align: center;
+		}
+
+		.btn-call {
+			@include button-variant($color-main, $color-highmedium, $color-highdark);
+
+			margin-top: 1em;
+			font-family: $font-header;
+			font-weight: medium;
+			text-transform: uppercase;
+			font-size: 1rem;
+		}
+
+		.btn-ghost {
+			@include button-variant($color-main, transparent, $color-highdark);
+
+			font-family: $font-header;
+			font-weight: medium;
+			text-transform: uppercase;
+			font-size: 1rem;
+
+			border: 1px solid $color-main;
+			&:hover, &:focus {
+				color: $color-highdark;
+			}
+			//transition: background .2s ease-in-out, border .2s ease-in-out;
+		}
+
+		.btn-more {
+			@extend .btn-link;
+			color: $color-highdark;
+			font-family: $font-header;
+			text-decoration: none;
+			display: block;
+			text-transform: uppercase;
+			font-size: 1.125em;
+			font-weight: 600;
+			margin: 0;
+			padding: 1em 0 0;
+			text-align: left;
+			//float: left;
+
+			&::after {
+				@include faIcon($fa-var-arrow-circle-o-right);
+				margin-left: .5em;
+			}
+
+			&:hover, &:focus{
+				text-decoration: none;
+				color: $color-highlight;
+			}
+
+			& span {
+				margin-left: 0.25em;
+			}
+		}
+	}
+}

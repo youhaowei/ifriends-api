@@ -1,0 +1,44 @@
+#login-modal {
+
+	
+		.modal-dialog {
+			width: 20em;
+			margin-top: 2em;
+			margin-right: 1em;
+			margin-left: auto;
+		}
+
+	h1 {
+		font-size: 1.25em;
+	}
+
+	p.form-text {
+		margin-top: 1.5em;
+		padding: 0;
+		margin-bottom: 0;
+	}
+
+	a.password-reset {
+		padding: 0; margin: 0;
+		font-size: 0.75em;
+
+		&:link{
+			text-decoration: underline;
+		}
+	}
+
+	footer {
+
+		button {
+			&:first-of-type {
+				float: left;
+			}
+
+			&.btn-call {
+				font-size: 1em;
+				padding: 0.25em 0.5em;
+				text-transform: none;
+			}
+		}
+	}
+}

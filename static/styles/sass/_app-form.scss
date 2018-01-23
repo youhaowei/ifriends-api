@@ -1,0 +1,215 @@
+html {
+	#app-main {
+
+		legend {
+			font-size: 1em;
+		}
+
+		.nav-pills {
+			li {
+				a {
+					color: $color-main;
+
+					&:hover, &:focus {
+						color: $color-white;
+						background-color: $color-acc1;
+					}
+				}
+
+				&.active {
+					a {
+						color: $color-white;
+						background-color: $color-main;
+					}
+
+				}
+			}
+		}
+
+		.progress-bar {
+			background-color: $color-acc1;
+		}
+
+		.pager {
+			padding: 0 1em;
+
+			li {
+				a{
+					border-radius: 4px;
+				}
+
+				&.previous a{
+					color: #ccc;
+				}
+
+				&.disabled {
+					a {
+						color: #ccc;
+						border-color: #eee;
+
+						&:hover, &:focus {
+							color: #ccc;
+							background-color: transparent;
+							border-color: #eee;
+						}
+					}
+				}
+			}
+		}
+
+		.required::after {
+			//content: "*";
+			color: $color-error;
+		}
+
+		p{
+			//font-size: .8em;
+			line-height: 1.5em;
+			margin-bottom: 1.25em;
+
+			label {
+
+				small {
+					font-size: .7em;
+				}
+			}
+
+			&.error-message {
+				color: $color-error;
+				margin: 0; padding: 0;
+				font-size: .8em;
+			}
+		}
+
+		.tab-pane {
+			& > fieldset.form-section {
+				& > legend {
+					font-family: $font-header;
+					font-size: 1.5em;
+					font-weight: normal;
+					border: 0;
+
+					.step-number {
+						text-transform: uppercase;
+						font-weight: bold;
+					}
+				}
+
+				fieldset {
+					//margin-bottom: 2em;
+
+					&:last-of-type {
+						margin-bottom: 0;
+					}
+				}
+			}
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+
+			&.form-check-cols{
+				display: block;
+				
+				li {
+					margin: 0; padding: 0;
+					display: block;
+				}
+
+			}
+		}
+
+		.form-check {
+			label {
+				font-weight: normal;
+			}
+		}
+
+		.form-check-input {
+			margin-right: .5em;
+		}
+
+		fieldset {
+			&.radio-group, &.check-group {
+				//margin-top: 0; padding-top: 0;
+				//margin-bottom: 0; padding-bottom: 0;
+
+				legend {
+					border: 0;
+					margin-bottom: 0;
+
+					//font-size: 1.2em;
+					font-weight: bold;
+
+					span.activity-explanation{
+						font-weight: normal;
+					}
+				}
+			}
+		}
+
+		input[type="radio"] {
+			position: relative;	// fix vertical alignment of radio buttons
+			margin-right: .25em;
+		}
+
+		input.submit-button {
+			float: right;
+		}
+
+	}
+
+	&#host-app, &#student-app, &#create-account {
+		main {
+			margin-top: 5em;
+			margin-bottom: 2em;
+		}
+	}
+
+	&#host-edit-profile {
+		main {
+			.panel:first-of-type {
+				margin-top: 2em;
+				margin-bottom: 2em;
+			}
+
+			ul.pager {
+
+				.update {
+					float: left;
+					margin-left: 1em;
+				}
+			}
+		}
+	}
+
+	&#create-account {
+		.panel-heading {
+			h1::before {
+				@include faIcon($fa-var-lock);
+				margin-right: .5em;
+			}
+		}
+
+		#submit-create-account { // center submit button on acocutn creation page
+			padding-top: 1em;
+			text-align: center;
+		}
+	}
+
+	body#page .success-message {
+		margin-top: 4em;
+		margin-bottom: 4em;
+
+		p {
+			font-size: .875em;
+			padding: .25em 1em;
+		}
+
+		h2.h3 {
+			font-size: .875em;
+			text-transform: none;
+		}
+	}
+}

@@ -1,0 +1,192 @@
+@mixin navlink() {
+	color: $color-white;
+	font-family: $font-header;
+	font-weight: 400;
+
+	&:hover, &:focus {
+		//color: $color-highlight;
+	}
+}
+
+html {
+	body#page {
+		& > header {
+			background-color: $color-white;
+			opacity: 1;
+			z-index: 500;
+			width: 100%;
+			position:fixed;
+			top: 0; left: 0; right:0;
+
+			#top-menu{
+				@include clearfix;
+				position:absolute;
+				top: 0; left: 0; right:0;
+				
+				z-index: 500;
+				//max-height: 25px;
+
+				ul.link-bar {
+					display: block;
+					//height: 3.5em;
+					list-style: none;
+					float: right;
+					margin-top: 0;
+					margin-right: 1em;
+					text-align: right;
+					padding: .175rem 0;
+					//line-height: 1em;
+
+					@include small {
+						margin-right: 0; // align with menu button
+					}
+					
+					li {
+						text-align: right;
+						display: inline-block;
+						margin-right: .25rem;
+
+						&:last-of-type {
+							margin-right: 0;
+						}
+					}
+				}
+
+				.btn {
+					font-size: 0.875rem;
+					padding: .125rem .5rem;
+				}
+
+				.btn-call {
+					margin-top: 0;
+				}
+			}
+
+			nav#main-nav.navbar {
+				//max-width: $max-page-width;
+				border-radius: 0;
+				border: 0;
+				margin: 2em auto 0;	// leave room for top menu
+				//height: 50px;
+
+				background-color: $color-main;
+				color: $color-white;
+
+				width: 100%;
+
+				a.navbar-brand {
+					height: 50px;
+					padding: 7px 0;
+					float: left;
+					width: 206px;
+
+					@include screen-sm-only{
+						margin-left: 0.5rem;
+					}
+				}
+
+				button.navbar-toggle {
+
+					.icon-bar {
+						background-color: $color-white;
+					}
+
+					&:hover, &:focus {
+						background-color: $color-highlight;
+						color: $color-main;
+						border-color: $color-highdark;
+
+						.icon-bar {
+							background-color: $color-main;
+						}
+
+					}
+
+					@include small {
+						width: 7em;
+
+						&:after {
+						    content:"Menu";
+						    font-family: $font-header;
+						    font-size: 1.25em;
+						    font-weight: 400;
+						    right:.5em;
+				    		top:.1em;
+						    position: absolute;
+						    width: 3em;
+						}
+					}
+				}
+
+				.navbar-collapse {
+
+
+					ul.navbar-nav {
+						
+						line-height: 1em;
+						
+						a:not(.btn-call) {
+							@include navlink;
+
+							&.current {
+								background-color: $color-acc1;
+							}
+
+							&:hover, &:focus {
+								background-color: $color-acc1;
+							}
+
+							@include screen-sm-only {
+								font-size: .9em;
+							}
+						}
+
+						@include screen-sm {
+							float: right;
+						}
+
+						@include screen-sm-only {
+							
+							height: 50px;
+							display: flex;
+							flex-direction: row;
+							align-items: stretch;
+							width: 100%;
+
+							li {
+								flex: 1;
+								text-align: center;
+
+								&:nth-of-type(3){
+									flex: 1.25;
+								}
+
+								&:nth-of-type(4){
+									flex: 1.5;
+								}
+							}
+						}
+
+						a.btn-call { // cta in navabar only
+							margin-right: 1em;
+							margin-left: 1em;
+							font-weight: 600;
+							color: $color-main;
+							font-family: $font-header;
+							padding: 0.25em 0.5em;
+							//height: 1.5em;
+							min-height: auto;
+							font-size: 1em;
+
+							&:hover, &:focus {
+								color: $color-black;
+							}
+						}
+						
+					}
+				}
+
+			}
+		}
+	}
+}

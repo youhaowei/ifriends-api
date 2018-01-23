@@ -1,0 +1,83 @@
+html {
+	body#page{
+	/*Global Styles*/
+		
+		p {
+		  margin: 0 0 10px;
+		}
+		
+		blockquote {
+			border-left: 5px solid #BADCDB;
+		}
+		
+		.copyright {
+			padding-top: 1em;
+		}
+		
+		.list-inline > li {
+			padding-right: 2.375em /* 38px */;
+		}
+		
+		.text-info {
+			color: #547B97;
+		}
+		
+		.no-padding {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+		
+		.center-block {
+			margin-top: 3em;
+		}
+		
+		.container-fluid {
+			padding-left: 0;
+			padding-right: 0;
+		}
+		
+			
+	/* Table */
+		.table-striped > tbody > tr:nth-of-type(odd) {
+			background-color: #badcdd;
+		}
+		
+		thead {
+			background-color: #547b97;
+			color: #fff;
+		}
+		
+		.table > thead > tr > th {
+			vertical-align: bottom;
+			border-bottom: 2px solid #212b40;
+		}
+
+	// 	Accordion  when accordion is open bg-color should be #badcdd
+
+		a.accordion-toggle {
+			color: $color-white;
+		}
+		
+// Panel Group
+		.panel-default {
+    		border-color: #547b97;
+		}
+		
+		.panel-title {
+			font-size: 1.125em;
+		}
+		
+		.panel-title > a {
+			color: $color-white;
+		}
+		
+		.list-group-item {
+    border-top: 1px solid #547b97;
+    }		
+
+// Bruna
+		.gap-right {
+			margin-right: 1em; 
+		}
+	}
+}

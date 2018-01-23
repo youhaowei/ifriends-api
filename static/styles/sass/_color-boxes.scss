@@ -1,0 +1,168 @@
+// 	Color Boxes
+html {
+	body#page{
+
+		.color-box {
+
+			background: $color-main;
+			color: $color-white;
+
+			@include clearfix;
+
+			h2 {
+				color: $color-white;
+			}
+
+			& > div {	// top level child div, aka columns
+				display: flex;	
+
+				@media (max-width: $screen-sm-max) {
+					flex-direction: column;
+				}
+			}
+
+			&:nth-of-type(even) {	// styles that override every-other color-box
+				
+				& > div { // top level child div, aka columns
+					@media (max-width: $screen-sm-max) {
+						flex-direction: column-reverse;		// fix image vs text order when stacked
+					}
+				}
+			}
+
+			ul {
+				padding-left: 1em;
+			}
+		}
+
+		.home-cta-img,
+		.feature-img,
+		.activity-img {
+			position: relative;
+			background-repeat: no-repeat;
+			background-size: cover;
+			opacity: 0.3;
+		}
+
+		.home-cta-text,
+		.home-cta-img {
+			min-height: 26rem;
+
+			@include small {
+				min-height: 18rem;
+			}
+		}
+
+		.feature-text,
+		.feature-img {
+			min-height: 33.75rem;
+
+			@include small {
+				min-height: 18rem;
+			}
+		}
+
+		.activity-text,
+		.activity-img {
+			min-height: 25rem;
+
+			@include small {
+				min-height: 18rem;
+			}
+		}
+
+		.home-cta-text,
+		.feature-text,
+		.activity-text {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			
+			padding: 5% 10%;
+
+			@media (max-width: $screen-sm-max) {
+				min-height: auto;	// release min-height when text is stacked with images
+			}
+		}
+
+		#home-cta-1 {
+			.home-cta-img {
+				background-image: url('./images/zipline.jpg');
+				background-position: center top;
+			}
+		}
+
+		#home-cta-2 {
+			background: $color-acc1;	// make light blue
+
+			.home-cta-img {
+				background-image: url('./images/host.jpg');
+				background-position: center top;
+				
+				
+				@include screen-xs-only {
+					background-position: center -1rem;
+					min-height: 24rem;
+				}
+
+				@include screen-sm-only {
+					//background-position: center -2rem;
+					//min-height: 38rem;
+				}
+			}
+		}
+
+		#feature-1 {
+
+			.feature-img {
+				background-image: url('./images/halloween.jpg');
+				background-position: center center;
+			}
+		}
+
+		#feature-2 {
+			background: $color-acc1;	// make light blue
+
+			.feature-img {
+				background-image: url('./images/cooking2.jpg');
+				background-position: center center;
+			}
+		}
+
+		#activity-1 {
+
+			.activity-img {
+				background-image: url('./images/welcome-luncheon.jpg');
+				background-position: center center;
+				opacity: 0.36;
+			}
+
+		}
+
+		#activity-2 {
+			background: $color-acc1;	// make light blue
+
+			.activity-img {
+				background-image: url('./images/fall-fiesta.jpg');
+				background-position: center center;
+			}
+		}
+
+		#activity-3 {
+
+			.activity-img {
+				background-image: url('./images/welcome-dinner.jpg');
+				background-position: center center;
+				opacity: 0.36;
+			}
+		}
+
+		#activity-4 {
+			background: $color-acc1;	// make light blue
+			.activity-img {
+				background-image: url('./images/spring-picnic.jpg');
+				background-position: center top;
+			}
+		}
+	}
+}

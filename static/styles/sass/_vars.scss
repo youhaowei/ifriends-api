@@ -1,0 +1,36 @@
+$max-page-width: 1170px;
+
+$color-main: #212B40;
+
+$color-acc1: #547B97;
+$color-acc2: #BCE0F1;
+
+$color-highlight: #B1DB46;
+$color-highmedium: #C2E078;
+$color-highdark: #90AF38;
+
+$color-white: #ffffff;
+$color-black: #333333;
+
+$color-error: red;
+
+$font-header: 'Poppins', sans-serif;
+
+$font-copy: 'Open Sans', sans-serif;
+
+@mixin faIcon($unicode){
+	content: $unicode;
+	font-family: FontAwesome;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: normal;
+}
+
+@mixin faIconBefore($unicode, $color){
+	&::before {
+		color: $color;
+		@include faIcon($unicode);
+		margin-right: 1em;
+	}
+}

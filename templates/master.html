@@ -1,0 +1,172 @@
+{% block html %}
+<!DOCTYPE html>
+<html lang="en" id="{{html_id}}">
+
+<head>
+	{% block head %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<title>International Friends | Tucson, AZ</title>
+
+	<!-- Fonts -->
+	{% block fonts %}
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600" rel="stylesheet"> {% endblock %} {% block styles %}
+	<!-- Compiled Sass -->
+	<link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet"> {% endblock %}
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date(); a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-106394359-1', 'auto');
+		ga('send', 'pageview');
+	</script> {% endblock %}
+
+</head>
+
+<body id="page">
+	{% block body %}
+	<header class="fluid-container">
+		{% block header %}
+		<!--Header-->
+			<div id="top-menu" class="container">
+				<ul class="link-bar">
+					<li>
+						<a class="btn btn-ghost" href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+					</li>
+					<li>
+						<a class="btn btn-call" href="create-account.html">Sign Up</a>
+					</li>
+				</ul>
+			</div>
+
+			<nav id="main-nav" class="navbar navbar-default">
+				<div class="container">
+					<a class="navbar-brand" href="index.html">
+						<img src="static/styles/images/logo.svg" width="206" height="36" alt="International Friends logo">
+					</a>
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+					</div>
+
+					<div class="collapse navbar-collapse" id="navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="{{ url_for('main.index') }}">Home</a>
+							</li>
+							<li>
+								<a href="about-us.html">About Us</a>
+							</li>
+							<li>
+								<a href="host-a-student.html">Host A Student</a>
+							</li>
+							<li>
+								<a href="meet-our-students.html">Meet Our Students</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			{% endblock %}
+		</header>
+		{% endblock %} {% block main %}{% endblock %}
+		<!--Footer -->
+		<footer>
+			{% block footer %}
+			<section>
+				<div class="container">
+
+					<div class="col-xs-12 col-sm-4">
+						<h1>International Friends, Inc.</h1>
+						<p>International Friends is an all-volunteer organization that brings together international students attending the University
+							of Arizona and residents of Tucson.
+						</p>
+						<p>
+							<a class="follow-us" href="https://www.facebook.com/groups/298210727017/">Follow Us!</a>
+						</p>
+					</div>
+
+					<div class="col-xs-6 col-sm-4">
+						<h1>Contact Details</h1>
+
+						<div class="vcard">
+							<p class="fn">
+								<a class="url" href="http://ifriendstucson.org">
+									<span class="line-1">International Student Services (ISS)</span>
+									<br>
+									<span class="line-2">International Friends</span>
+								</a>
+							</p>
+							<p class="adr">
+								<span class="street-address">915 N. Tyndall Avenue</span>
+								<br>
+								<span class="locality">Tucson</span>,
+								<span class="region">AZ</span>
+								<span class="postal-code">85721</span>
+							</p>
+							<p class="tel">(520) 621-4627</p>
+							<p class="email">info@ifriendstucson.org</p>
+						</div>
+					</div>
+
+					<div id="site-map" class="col-xs-6 col-sm-4">
+						<h1>Menu</h1>
+						<ul>
+							<li>
+								<a class="current" href="index.html">Home</a>
+							</li>
+							<li>
+								<a href="about-us.html">About Us</a>
+							</li>
+							<li>
+								<a href="host-a-student.html">Host A Student</a>
+							</li>
+							<li>
+								<a href="meet-our-students.html">Meet Our Students</a>
+							</li>
+							<li>
+								<a href="guiding-principles.html">Guiding Principles</a>
+							</li>
+							<li>
+								<a href="chairperson-letter.html">Chairperson Letter</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+			<section id="legal">
+				<div class="container">
+					<p class="copyright">
+						&copy; 2017 International Friends, Inc. All Rights Reserved. Web Design by
+						<a href="#">Octavia Media</a>
+					</p>
+				</div>
+			</section>
+			{% endblock %}
+		</footer>
+		{% block scripts %}
+		<script src="{{ url_for('static', filename='js/bundle.js') }}"></script> {% endblock %}
+</body>
+
+</html>
+{% endblock %}
