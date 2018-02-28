@@ -108,8 +108,9 @@ class HostsAPI(Resource):
         return update
 
     def get(self):
+        role_required([Role.CO_CHAIR, Role.ADMIN])
         args = self.getParser.parse_args()
-        user = role_required([Role.CO_CHAIR, Role.ADMIN])
+     
         if args["pending"]:
             query = mongo.db.User.find({"phost_pending": True})
         else:
@@ -123,7 +124,7 @@ class HostsAPI(Resource):
 
 
 def verify_host(uid):
-    user = User(uid)
+    user = User.load(uid)
     if user.has_role(Role.HOST):
         return "The host is already verified: %s %s (%s)" %\
             (user.first_name, user.last_name, user.email)

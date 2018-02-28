@@ -1,5 +1,5 @@
 from passlib.apps import custom_app_context as pwd_context
-from .. import mongo
+from .. import mongo, login_manager
 from itsdangerous import (
     JSONWebSignatureSerializer, TimedJSONWebSignatureSerializer,
     BadSignature, SignatureExpired
@@ -7,6 +7,11 @@ from itsdangerous import (
 from flask import current_app, abort
 from bson import ObjectId
 from enum import Enum
+from flask_login import UserMixin
+
+
+def hash_password(password):
+    return pwd_context.encrypt(password)
 
 
 class Role(Enum):
@@ -21,18 +26,19 @@ class Role(Enum):
     HOST_CANDIDATE = "Host Candidate"
 
 
-class User:
+"""
+Model for user
+"""
 
-    def __init__(self, uid):
-        if isinstance(uid, str) or isinstance(uid, ObjectId):
-            result = mongo.db.User.find_one({
-                "_id": ObjectId(uid)
-            })
-        else:
-            result = uid
-        if not result:
-            abort(404, "uid is invalid")
-        self.uid = uid
+
+class User(UserMixin):
+
+    """
+    initiate user object from database with given user ID
+    """
+
+    def __init__(self, result):
+        self.uid = result["_id"]
         self.email = result["email"]
         self.password = result["password"]
         self.roles = result["roles"]
@@ -41,15 +47,41 @@ class User:
         self.confirmed = result["confirmed"]
         self.document = result
 
+    @staticmethod
+    def load(uid):
+        result = mongo.db.User.find_one({
+            "_id": ObjectId(uid)
+        })
+        if not result:
+            return None
+        return User(result)
+
+    """
+    return a json string representing the user
+    """
+
     def json(self):
         self.document["uid"] = str(self.uid)
         del self.document["_id"]
         return self.document
 
-    @staticmethod
-    def hash_password(password):
-        return pwd_context.encrypt(password)
+    """
+    for flask_login, active user is confirmed user for now
+    """
 
+    def is_active(self):
+        return self.confirmed
+
+    """
+    for flask_login
+    """
+
+    def get_id(self):
+        return self.uid
+
+    """
+    register a new user, return the user object if successful
+    """
     @staticmethod
     def register(email, password, first_name, last_name):
         result = User.find_by_email(email)
@@ -57,20 +89,17 @@ class User:
             raise Warning("Email already exists.")
         result = mongo.db.User.insert_one({
             "email": email,
-            "password": User.hash_password(password),
+            "password": hash_password(password),
             "roles": [],
             "confirmed": False,
             "first_name": first_name,
             "last_name": last_name
         })
-        s = TimedJSONWebSignatureSerializer(
-            current_app.config["SECRET_KEY"], expires_in=900)
-        return {
-            "uid": str(result.inserted_id),
-            "token": s.dumps({
-                "uid": str(result.inserted_id)
-            }).decode("ascii")
-        }
+        return User.load(result.inserted_id)
+
+    """
+    generate a token
+    """
 
     def generate_token(self, expire=3600):
         # generate a timed token
@@ -86,27 +115,21 @@ class User:
     def verify_token(token):
         s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'])
         data = s.loads(token)
-        user = User(data["uid"])
+        user = User.load(data["uid"])
         return user
 
     @staticmethod
     def find_by_email(email):
-        return mongo.db.User.find_one({
+        result = mongo.db.User.find_one({
             "email": email
-        }, {
-            "_id": 1,
-            "password": 1
         })
-
-    @staticmethod
-    def verify_password(email, password):
-        result = User.find_by_email(email)
-        if result is None:
-            raise Warning("Email doesn't exist in database.")
-        if pwd_context.verify(password, result['password']):
-            return User(result["_id"])
+        if result is not None:
+            return User(result)
         else:
-            raise Warning("Invalid password")
+            return result
+
+    def verify_password(self, password):
+        return pwd_context.verify(password, self.password)
 
     def update_host_info(self, update):
         if self.has_role(Role.HOST):
@@ -159,3 +182,8 @@ class User:
             return False
         else:
             return roles.value in self.roles
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.load(user_id)

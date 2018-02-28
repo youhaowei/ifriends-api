@@ -2,6 +2,7 @@ from flask_restful import reqparse, Resource
 from ..helpers import token_required, auth_required, role_required
 from ..models import Role, User
 from .. import mongo
+from flask import abort
 
 
 class StudentsAPI(Resource):
@@ -50,7 +51,7 @@ class StudentsAPI(Resource):
         return args
 
     def get(self):
-        user = role_required([Role.ADMIN, Role.HOST])
+        role_required([Role.ADMIN, Role.HOST])
         result = mongo.db.User.find({
             "roles": Role.CUR_STUDENT.value
         }, {

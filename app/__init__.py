@@ -5,10 +5,12 @@ from config import config
 from flask_restful import Api
 from flask_mail import Mail
 from flask_cors import CORS
+from flask_login import LoginManager
 
 mongo = PyMongo()
 mail = Mail()
-cors = CORS()
+login_manager = LoginManager()
+#cors = CORS()
 
 
 def create_app(config_name):
@@ -17,7 +19,8 @@ def create_app(config_name):
     app.config.from_object(config[config_name])
     mongo.init_app(app)
     mail.init_app(app)
-    cors.init_app(app)
+    login_manager.init_app(app)
+    #cors.init_app(app)
 
     # attach routes and custom error pages here
     from .main import main as main_blueprint

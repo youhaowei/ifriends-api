@@ -7,6 +7,7 @@ from ..helpers import (
 )
 from .. import mongo
 from ..email import send_email
+from flask import abort
 
 
 class UsersAPI(Resource):
@@ -19,7 +20,7 @@ class UsersAPI(Resource):
         self.postParser.add_argument('last_name', required=True)
 
     def get(self):
-        user = role_required([Role.ADMIN, Role.CO_CHAIR])
+        role_required([Role.ADMIN, Role.CO_CHAIR])
         query = mongo.db.User.find({})
         result = []
         for q in query:
@@ -65,7 +66,7 @@ class UserAPI(Resource):
 class UserConfirmAPI(Resource):
 
     def get(self, uid):
-        user = User(uid)
+        user = User.load(uid)
         if token_missing():
             if user.confirmed:
                 return "You have already confirmed your account."
